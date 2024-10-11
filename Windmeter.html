@@ -2,10 +2,46 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0;url=https://www.nu.nl">
-    <title>Doorverwijzen...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weergegevens</title>
+    <script>
+        // Dit JavaScript wordt uitgevoerd zodra de pagina geladen is
+        document.addEventListener("DOMContentLoaded", function() {
+            // URL van de externe bron (API)
+            const apiUrl = "https://api.weather.com/v1/city?city=Amsterdam&key=YOUR_API_KEY";
+            
+            // Gebruik de Fetch API om data op te halen
+            fetch(apiUrl)
+                .then(response => {
+                    // Controleer of de response succesvol was
+                    if (!response.ok) {
+                        throw new Error("Netwerk response was niet oké");
+                    }
+                    // Converteer de response naar JSON
+                    return response.json();
+                })
+                .then(data => {
+                    // Toon de opgehaalde data op de pagina
+                    document.getElementById("weather-info").innerHTML = `
+                        <h2>Weer in ${data.city}</h2>
+                        <p>Temperatuur: ${data.temperature} °C</p>
+                        <p>Weersomstandigheden: ${data.description}</p>
+                    `;
+                })
+                .catch(error => {
+                    // Als er een fout optreedt, toon een foutmelding
+                    document.getElementById("weather-info").innerHTML = `
+                        <p>Er is een fout opgetreden: ${error.message}</p>
+                    `;
+                });
+        });
+    </script>
 </head>
 <body>
-    <p>Als je niet automatisch wordt doorgestuurd, <a href="https://www.nu.nl">klik hier</a>.</p>
+    <h1>Weerinformatie</h1>
+    <div id="weather-info">
+        <!-- De opgehaalde data zal hier worden weergegeven -->
+        <p>Data wordt geladen...</p>
+    </div>
 </body>
 </html>
