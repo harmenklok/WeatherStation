@@ -1,9 +1,8 @@
 {
   "profiles": {
-    "WindmeterFunction": {
+    "WeatherStationFunction": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7005",
-      "launchBrowser": false
+      "commandLineArgs": "--port 7005"
     }
   }
 }
