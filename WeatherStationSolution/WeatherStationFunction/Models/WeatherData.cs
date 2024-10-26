@@ -1,7 +1,7 @@
-﻿namespace WindmeterFunction.Models
+﻿namespace WeatherStationFunction.Models
 {
 
-    public class WindmeterData
+    public class WeatherData
     {
         public int WindForceBft {  get; set; }
         public int TempCel {  get; set; }

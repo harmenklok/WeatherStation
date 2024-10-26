@@ -1,4 +1,4 @@
-﻿namespace WindmeterFunction.Models.OpenWeatherMap
+﻿namespace WeatherStationFunction.Models.OpenWeatherMap
 {
 
     public class Weather

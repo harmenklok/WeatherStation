@@ -1,4 +1,4 @@
-﻿namespace WindmeterFunction.Models.OpenWeatherMap
+﻿namespace WeatherStationFunction.Models.OpenWeatherMap
 {
     using System;
     using System.Collections.Generic;

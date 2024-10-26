@@ -1,4 +1,4 @@
-namespace WindmeterFunction
+namespace WeatherStationFunction
 {
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -7,14 +7,14 @@ namespace WindmeterFunction
     using System.Net.Http.Json;
     using System.Threading.Tasks;
 
-    using WindmeterFunction.Models;
-    using WindmeterFunction.Models.OpenWeatherMap;
+    using WeatherStationFunction.Models;
+    using WeatherStationFunction.Models.OpenWeatherMap;
 
-    public class GetWeatherStationData(ILogger<GetActualWeather> logger)
+    public class GetWeatherData(ILogger<GetWeatherData> logger)
     {
-        private readonly ILogger<GetActualWeather> _logger = logger;
+        private readonly ILogger<GetWeatherData> _logger = logger;
 
-        [Function(nameof(GetActualWeather))]
+        [Function(nameof(GetWeatherData))]
         public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
@@ -34,19 +34,19 @@ namespace WindmeterFunction
                 var weatherResponse = await client.GetFromJsonAsync<WeatherResponse>(url);
                 if (weatherResponse != null)
                 {
-                    WindmeterData windTempData = new()
+                    WeatherData weatherData = new()
                     {
                         WindForceBft = Convert.ToInt16(Math.Round(Math.Pow(weatherResponse.wind.speed / denominatorBft, powerBft))),
                         TempCel = Convert.ToInt32(Math.Round(weatherResponse.main.temp, 0)),
                         WindDirectionDeg = weatherResponse.wind.deg
                     };
 
-                    int index = (int)Math.Round(windTempData.WindDirectionDeg / 45.0) % 8;
+                    int index = (int)Math.Round(weatherData.WindDirectionDeg / 45.0) % 8;
 
-                    Console.WriteLine($"Current temperature in {city}: {windTempData.TempCel}°C");
+                    Console.WriteLine($"Current temperature in {city}: {weatherData.TempCel}°C");
                     Console.WriteLine($"Weather: {weatherResponse.weather[0].description}");
-                    Console.WriteLine($"The windforce is {windTempData.WindForceBft} beafort (which is {weatherResponse.wind.speed} m/s) and is heading {windTempData.WindDirectionDeg} which is {windrichtingen[index]}");
-                    return new OkObjectResult(windTempData);
+                    Console.WriteLine($"The windforce is {weatherData.WindForceBft} beafort (which is {weatherResponse.wind.speed} m/s) and is heading {weatherData.WindDirectionDeg} which is {windrichtingen[index]}");
+                    return new OkObjectResult(weatherData);
                 }
                 else
                 {
