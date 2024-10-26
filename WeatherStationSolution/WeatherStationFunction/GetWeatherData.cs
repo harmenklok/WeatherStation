@@ -12,12 +12,11 @@ namespace WeatherStationFunction
 
     public class GetWeatherData(ILogger<GetWeatherData> logger)
     {
-        private readonly ILogger<GetWeatherData> _logger = logger;
 
         [Function(nameof(GetWeatherData))]
         public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req)
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
+            logger.LogInformation("C# HTTP trigger function processed a request.");
 
 
             //Declare variables
@@ -43,20 +42,21 @@ namespace WeatherStationFunction
 
                     int index = (int)Math.Round(weatherData.WindDirectionDeg / 45.0) % 8;
 
-                    Console.WriteLine($"Current temperature in {city}: {weatherData.TempCel}°C");
-                    Console.WriteLine($"Weather: {weatherResponse.weather[0].description}");
-                    Console.WriteLine($"The windforce is {weatherData.WindForceBft} beafort (which is {weatherResponse.wind.speed} m/s) and is heading {weatherData.WindDirectionDeg} which is {windrichtingen[index]}");
+                    //Console.WriteLine($"Current temperature in {city}: {weatherData.TempCel}°C");
+                    logger.LogInformation($"Current temperature in {city}: {weatherData.TempCel}°C");
+                    logger.LogInformation($"Weather: {weatherResponse.weather[0].description}");
+                    logger.LogInformation($"The windforce is {weatherData.WindForceBft} beaufort (which is {weatherResponse.wind.speed} m/s) and is heading {weatherData.WindDirectionDeg} which is {windrichtingen[index]}");
                     return new OkObjectResult(weatherData);
                 }
                 else
                 {
-                    Console.WriteLine("No weather data found.");
+                    logger.LogWarning("No weather data found.");
                     return new NotFoundObjectResult("No weather data found.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                logger.LogError($"An error occurred: {ex.Message}");
                 return new BadRequestObjectResult($"An error occurred. {ex.Message}");
             }
         }
