@@ -31,7 +31,7 @@ jobs:
       - name: 'Resolve Project Dependencies Using Dotnet'
         shell: pwsh
         run: |
-          pushd './WeatherStationSolution/WeatherStationSolution.sln'
+          pushd 'D:\a\WeatherStation\WeatherStation\WeatherStationSolution\WeatherStationSolution.sln'
           dotnet build --configuration Release --output ./output
           popd
       
