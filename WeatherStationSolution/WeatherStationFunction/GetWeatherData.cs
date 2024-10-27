@@ -14,7 +14,7 @@ namespace WeatherStationFunction
     {
 
         [Function(nameof(GetWeatherData))]
-        public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req)
+        public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
         {
             logger.LogInformation("C# HTTP trigger function processed a request.");
 
