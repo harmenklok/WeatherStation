@@ -3,6 +3,7 @@ namespace WeatherStationFunction
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Azure.Functions.Worker;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using System.Net.Http.Json;
     using System.Threading.Tasks;
@@ -10,7 +11,8 @@ namespace WeatherStationFunction
     using WeatherStationFunction.Models;
     using WeatherStationFunction.Models.OpenWeatherMap;
 
-    public class GetWeatherData(ILogger<GetWeatherData> logger)
+    public class GetWeatherData(ILogger<GetWeatherData> logger,
+        IConfiguration configuration)
     {
 
         [Function(nameof(GetWeatherData))]
@@ -18,10 +20,8 @@ namespace WeatherStationFunction
         {
             logger.LogInformation("C# HTTP trigger function processed a request.");
 
-
-            //Declare variables
-            string apiKey = "26f18abcfb4cfe8441676a2681c9f638";
-            string city = "Brouwershaven";
+            string apiKey = configuration["OpenWeatherMapToken"];
+            string city = configuration["City"];
             double denominatorBft = 0.835d;
             double powerBft = (2d / 3d);
             string url = $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric";
