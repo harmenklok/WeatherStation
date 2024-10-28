@@ -5,14 +5,15 @@ namespace WeatherStationFunction
     using Microsoft.Azure.Functions.Worker;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
+
+    using System.Configuration;
     using System.Net.Http.Json;
     using System.Threading.Tasks;
 
     using WeatherStationFunction.Models;
     using WeatherStationFunction.Models.OpenWeatherMap;
 
-    public class GetWeatherData(ILogger<GetWeatherData> logger,
-        IConfiguration configuration)
+    public class GetWeatherData(ILogger<GetWeatherData> logger)
     {
 
         [Function(nameof(GetWeatherData))]
@@ -20,8 +21,8 @@ namespace WeatherStationFunction
         {
             logger.LogInformation("C# HTTP trigger function processed a request.");
 
-            string apiKey = configuration["OpenWeatherMapToken"];
-            string city = configuration["City"];
+            string apiKey = ReadConfigValue("OpenWeatherMapToken");
+            string city = ReadConfigValue("City");
             double denominatorBft = 0.835d;
             double powerBft = (2d / 3d);
             string url = $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric";
@@ -59,6 +60,17 @@ namespace WeatherStationFunction
                 logger.LogError($"An error occurred: {ex.Message}");
                 return new BadRequestObjectResult($"An error occurred. {ex.Message}");
             }
+        }
+
+        public static string ReadConfigValue(string name, bool throwError = true)
+        {
+            string? environmentVariable = Environment.GetEnvironmentVariable(name);
+            if (string.IsNullOrEmpty(environmentVariable) && throwError)
+            {
+                throw new ConfigurationErrorsException("Config value '" + name + "' is not set!");
+            }
+
+            return environmentVariable;
         }
     }
 }
