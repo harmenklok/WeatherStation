@@ -25,7 +25,7 @@ namespace WeatherStationFunction
             double denominatorBft = 0.835d;
             double powerBft = (2d / 3d);
             string url = $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric";
-            string[] windrichtingen = [ "Noord", "Noordoost", "Oost", "Zuidoost", "Zuid", "Zuidwest", "West", "Noordwest" ];
+            string[] windrichtingen = [ "North", "NorthEast", "East", "SouthEast", "South", "SouthWest", "West", "Northwest" ];
 
             using HttpClient client = new();
             try
