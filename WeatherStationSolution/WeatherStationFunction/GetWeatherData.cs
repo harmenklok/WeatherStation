@@ -34,11 +34,14 @@ namespace WeatherStationFunction
                 var weatherResponse = await client.GetFromJsonAsync<WeatherResponse>(url);
                 if (weatherResponse != null)
                 {
+                    double windForce = Math.Pow(weatherResponse.wind.speed / denominatorBft, powerBft);
+                    windForce = Math.Round(windForce);
+                    windForce = Math.Min(windForce, 12);
 
                     WeatherData weatherData = new()
                     {
-                        WindForceBft = Convert.ToInt16(Math.Min(Math.Round(Math.Pow(weatherResponse.wind.speed / denominatorBft, powerBft)),12)),
-                        TempCel = Convert.ToInt32(Math.Round(weatherResponse.main.temp, 0)),
+                        WindForceBft = Convert.ToInt16(windForce),
+                        TempCel = Convert.ToInt16(Math.Round(weatherResponse.main.temp, 0)),
                         WindDirectionDeg = weatherResponse.wind.deg
                     };
 
