@@ -34,9 +34,9 @@ namespace WeatherStationFunction
                 var weatherResponse = await client.GetFromJsonAsync<WeatherResponse>(url);
                 if (weatherResponse != null)
                 {
-                    double windForce = Math.Pow(weatherResponse.wind.speed / denominatorBft, powerBft);
-                    windForce = Math.Round(windForce);
-                    windForce = Math.Min(windForce, 12);
+                    double windForce = Math.Pow(weatherResponse.wind.speed / denominatorBft, powerBft); //Machische formule om windkracht te berekenen
+                    windForce = Math.Round(windForce); //Afronden op geheel getal
+                    windForce = Math.Min(windForce, 12); //Maximale windkracht is 12
 
                     WeatherData weatherData = new()
                     {
@@ -45,10 +45,9 @@ namespace WeatherStationFunction
                         WindDirectionDeg = weatherResponse.wind.deg
                     };
 
-                    int index = (int)Math.Round(weatherData.WindDirectionDeg / 45.0) % 8;
+                    int index = (int)Math.Round(weatherData.WindDirectionDeg / 45.0) % 8; //Berekenen van de windrichting
 
-                    //Console.WriteLine($"Current temperature in {city}: {weatherData.TempCel}°C");
-                    logger.LogInformation($"Current temperature in {city}: {weatherData.TempCel}°C");
+                    logger.LogInformation($"Current temperature in {city}: {weatherData.TempCel}ï¿½C");
                     logger.LogInformation($"Weather: {weatherResponse.weather[0].description}");
                     logger.LogInformation($"The windforce is {weatherData.WindForceBft} beaufort (which is {weatherResponse.wind.speed} m/s) and is heading {weatherData.WindDirectionDeg} which is {windrichtingen[index]}");
                     return new OkObjectResult(weatherData);
