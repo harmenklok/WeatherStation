@@ -23,7 +23,7 @@ namespace WeatherStationFunction
 
             string apiKey = ReadConfigValue("OpenWeatherMapToken");
             string city = ReadConfigValue("City");
-            double denominatorBft = 0.835d;
+            double denominatorBft = 0.8353d;
             double powerBft = (2d / 3d);
             string url = $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric";
             string[] windrichtingen = [ "North", "NorthEast", "East", "SouthEast", "South", "SouthWest", "West", "Northwest" ];
