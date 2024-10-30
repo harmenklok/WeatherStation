@@ -48,8 +48,8 @@ namespace WeatherStationFunction
                     int index = (int)Math.Round(weatherData.WindDirectionDeg / 45.0) % 8; //Berekenen van de windrichting
 
                     logger.LogInformation($"Weather: {weatherResponse.weather[0].description}");
-                    logger.LogInformation($"Current temperature in {city}: {weatherData.TempCel} °C");
-                    logger.LogInformation($"The wind is {weatherResponse.wind.speed} m/s which matches on {weatherData.WindForceBft} beaufort and is heading {windrichtingen[index]} ( {weatherData.WindDirectionDeg} ° ) ");
+                    logger.LogInformation($"Current temperature in {city}: {weatherData.TempCel}°C");
+                    logger.LogInformation($"The wind is {weatherResponse.wind.speed} m/s which matches on {weatherData.WindForceBft} beaufort and is heading {windrichtingen[index]} ({weatherData.WindDirectionDeg}°)");
                     return new OkObjectResult(weatherData);
                 }
                 else
