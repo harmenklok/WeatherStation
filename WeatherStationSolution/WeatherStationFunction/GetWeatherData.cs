@@ -45,7 +45,7 @@ namespace WeatherStationFunction
                     {
                         WindForceBft = Convert.ToInt16(windForce),
                         TempCel = Convert.ToInt16(Math.Round(weatherResponse.main.temp, 0)),
-                        WindCompDir = windCompDirs[compIdx]
+                        WindDirComp = windCompDirs[compIdx]
                     };
 
                     
