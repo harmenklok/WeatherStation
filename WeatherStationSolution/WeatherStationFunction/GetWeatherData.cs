@@ -26,7 +26,8 @@ namespace WeatherStationFunction
             double denominatorBft = 0.8353d;
             double powerBft = (2d / 3d);
             string url = $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric";
-            string[] windrichtingen = [ "North", "NorthEast", "East", "SouthEast", "South", "SouthWest", "West", "Northwest" ];
+            string[] windCompassDirs = [ "North", "NorthEast", "East", "SouthEast", "South", "SouthWest", "West", "Northwest" ];
+            string[] windCompDirs = ["N", "NE", "E", "SE", "S", "SW", "W", "N"];
 
             using HttpClient client = new();
             try
@@ -38,18 +39,20 @@ namespace WeatherStationFunction
                     windForce = Math.Round(windForce); //Afronden op geheel getal
                     windForce = Math.Min(windForce, 12); //Maximale windkracht is 12
 
+                    int compIdx = (int)Math.Round(weatherResponse.wind.deg / 45.0) % 8; //Berekenen van de windrichting
+
                     WeatherData weatherData = new()
                     {
                         WindForceBft = Convert.ToInt16(windForce),
                         TempCel = Convert.ToInt16(Math.Round(weatherResponse.main.temp, 0)),
-                        WindDirectionDeg = weatherResponse.wind.deg
+                        WindCompDir = windCompDirs[compIdx]
                     };
 
-                    int index = (int)Math.Round(weatherData.WindDirectionDeg / 45.0) % 8; //Berekenen van de windrichting
+                    
 
                     logger.LogInformation($"The weather in {city} is {weatherResponse.weather[0].description}");
                     logger.LogInformation($"Temperature is {weatherData.TempCel}°C");
-                    logger.LogInformation($"Wind is {weatherResponse.wind.speed} m/s which is {weatherData.WindForceBft} beaufort and is heading {windrichtingen[index]} ({weatherData.WindDirectionDeg}°)");
+                    logger.LogInformation($"Wind is {weatherResponse.wind.speed} m/s which is {weatherData.WindForceBft} beaufort and is heading {windCompassDirs[compIdx]} ({weatherResponse.wind.deg}°)");
                     return new OkObjectResult(weatherData);
                 }
                 else

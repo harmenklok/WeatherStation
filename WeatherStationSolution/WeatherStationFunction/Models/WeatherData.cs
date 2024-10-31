@@ -3,8 +3,8 @@
 
     public class WeatherData
     {
+        public int TempCel { get; set; }
+        public string WindCompDir { get; set; }
         public int WindForceBft {  get; set; }
-        public int TempCel {  get; set; }
-        public int WindDirectionDeg { get; set; }
     }
 }
