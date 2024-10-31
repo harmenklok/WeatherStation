@@ -70,13 +70,20 @@ namespace WeatherStationFunction
 
         public static string ReadConfigValue(string name, bool throwError = true)
         {
-            string? environmentVariable = Environment.GetEnvironmentVariable(name);
-            if (string.IsNullOrEmpty(environmentVariable) && throwError)
+            string? result = Environment.GetEnvironmentVariable(name);
+            if (string.IsNullOrEmpty(result))
             {
-                throw new ConfigurationErrorsException("Config value '" + name + "' is not set!");
+                if (throwError)
+                {
+                    throw new ConfigurationErrorsException("Config value '" + name + "' is not set!");
+                }
+                else
+                {
+                    result = string.Empty;
+                }
             }
 
-            return environmentVariable;
+            return result;
         }
     }
 }
