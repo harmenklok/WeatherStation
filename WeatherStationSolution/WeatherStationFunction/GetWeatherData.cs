@@ -23,8 +23,11 @@ namespace WeatherStationFunction
 
             string apiKey = ReadConfigValue("OpenWeatherMapToken");
             string city = ReadConfigValue("City");
+            int updateInterval = string.IsNullOrEmpty(ReadConfigValue("UpdateInterval", false)) ? 5 : Convert.ToInt16(ReadConfigValue("UpdateInterval"));
+
             double denominatorBft = 0.8353d;
             double powerBft = (2d / 3d);
+            
             string url = $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric";
             string[] windCompassDirs = [ "North", "NorthEast", "East", "SouthEast", "South", "SouthWest", "West", "Northwest" ];
             string[] windCompDirs = ["N", "NE", "E", "SE", "S", "SW", "W", "N"];
@@ -45,7 +48,8 @@ namespace WeatherStationFunction
                     {
                         WindForceBft = Convert.ToInt16(windForce),
                         TempCel = Convert.ToInt16(Math.Round(weatherResponse.main.temp, 0)),
-                        WindDirComp = windCompDirs[compIdx]
+                        WindDirComp = windCompDirs[compIdx],
+                        UpdateInterval = updateInterval
                     };
 
                     
