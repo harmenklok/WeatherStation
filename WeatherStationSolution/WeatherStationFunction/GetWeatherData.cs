@@ -30,7 +30,7 @@ namespace WeatherStationFunction
             
             string url = $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric";
             string[] windCompassDirs = [ "North", "NorthEast", "East", "SouthEast", "South", "SouthWest", "West", "Northwest" ];
-            string[] windCompDirs = ["N", "NE", "E", "SE", "S", "SW", "W", "N"];
+            string[] windCompDirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
 
             using HttpClient client = new();
             try
