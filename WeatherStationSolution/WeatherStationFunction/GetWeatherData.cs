@@ -46,7 +46,7 @@ namespace WeatherStationFunction
 
                     WeatherData weatherData = new()
                     {
-                        WindForceBft = Convert.ToInt16(windForce),
+                        WindForceBft = 0, //Convert.ToInt16(windForce),
                         TempCel = Convert.ToInt16(Math.Round(weatherResponse.main.temp, 0)),
                         WindDirComp = windCompDirs[compIdx],
                         UpdateInterval = updateInterval
