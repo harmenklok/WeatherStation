@@ -42,7 +42,7 @@ namespace WeatherStationFunction
                     windForce = Math.Round(windForce); //Afronden op geheel getal
                     windForce = Math.Min(windForce, 12); //Maximale windkracht is 12
 
-                    int compIdx = (int)Math.Round((weatherResponse.wind.deg + 22.5) / 45.0) % 8; //Berekenen van de windrichting
+                    int compIdx = (int)Math.Floor((weatherResponse.wind.deg + 22.5) / 45.0) % 8; //Berekenen van de windrichting
 
                     WeatherData weatherData = new()
                     {
