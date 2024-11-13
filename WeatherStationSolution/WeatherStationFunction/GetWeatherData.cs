@@ -8,6 +8,7 @@ namespace WeatherStationFunction
 
     using System.Configuration;
     using System.Net.Http.Json;
+    using System.Text.Json;
     using System.Threading.Tasks;
 
     using WeatherStationFunction.Models;
@@ -52,11 +53,9 @@ namespace WeatherStationFunction
                         UpdateInterval = updateInterval
                     };
 
-                    
-
-                    logger.LogInformation($"The weather in {city} is {weatherResponse.weather[0].description}");
-                    logger.LogInformation($"Temperature is {weatherData.TempCel}°C");
+                    logger.LogInformation($"Temperature in {city} is {weatherData.TempCel}°C");
                     logger.LogInformation($"Wind is {weatherResponse.wind.speed} m/s which is {weatherData.WindForceBft} beaufort and is heading {windCompassDirs[compIdx]} ({weatherResponse.wind.deg}°)");
+                    logger.LogInformation($"Response is: {JsonSerializer.Serialize(weatherData)}");
                     return new OkObjectResult(weatherData);
                 }
                 else
