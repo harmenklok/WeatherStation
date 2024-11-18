@@ -3,7 +3,6 @@ namespace WeatherStationFunction
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Azure.Functions.Worker;
-    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
 
     using System.Configuration;
@@ -20,12 +19,12 @@ namespace WeatherStationFunction
         [Function(nameof(GetWeatherData))]
         public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
         {
-            logger.LogInformation("C# HTTP trigger function processed a request.");
 
             string apiKey = ReadConfigValue("OpenWeatherMapToken");
             string city = ReadConfigValue("City");
             int updateInterval = string.IsNullOrEmpty(ReadConfigValue("UpdateInterval", false)) ? 5 : Convert.ToInt16(ReadConfigValue("UpdateInterval"));
 
+            //Constants for speed to Bft calculation
             double denominatorBft = 0.8353d;
             double powerBft = (2d / 3d);
             
